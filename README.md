@@ -1,7 +1,7 @@
 # dvankley's Quickstart Fork
 This fork is intended for use by users of https://github.com/dvankley/firefly-plaid-connector-2/.
 
-Note that this fork's changes have only been made to the `java` backend, so you will need to run that backend to use the changes.
+Note that this fork's changes have only been made to the `java` and `ruby` backends, so you will need to run one of those backends to use the changes.
 
 List of differences from upstream:
 1. Supports passing in `input_access_token` to trigger the update flow rather than the create flow as described

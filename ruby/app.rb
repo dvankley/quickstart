@@ -483,6 +483,8 @@ post '/api/create_link_token' do
         redirect_uri: nil_if_empty_envvar('PLAID_REDIRECT_URI')
       }
     )
+    access_token = params['access_token']
+    link_token_create_request.access_token = access_token unless access_token.nil?
     if ENV['PLAID_PRODUCTS'].split(',').include?("statements")
       today = Date.today
       statements = Plaid::LinkTokenCreateRequestStatements.new(
@@ -498,6 +500,11 @@ post '/api/create_link_token' do
       link_token_create_request.user_token=user_token
       link_token_create_request.consumer_report_permissible_purpose =Plaid::ConsumerReportPermissiblePurpose::ACCOUNT_REVIEW_CREDIT
 
+    end
+    if ENV['PLAID_PRODUCTS'].split(',').include?("transactions")
+      link_token_create_request.transactions = Plaid::LinkTokenTransactions.new(
+        days_requested: 730
+      )
     end
     link_response = client.link_token_create(link_token_create_request)
     pretty_print_response(link_response.to_hash)
